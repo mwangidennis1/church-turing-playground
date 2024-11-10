@@ -1,9 +1,6 @@
 import re
 from token import Token
 from constants import IDENTIFIER ,ABSTRACTION,APPLICATION
-IDENTIFIER = 101
-ABSTRACTION = 102
-APPLICATION = 103
 
 class Lexer(object):
     def __init__(self, input_text):
@@ -200,6 +197,3 @@ class Lexer(object):
             index += 1
         return parser_list
         
-'''l=Lexer('(λa. (λb. b a) a) (λz. z) (λw. w) ')
-token_list=l.lexer()'''
-#print([i.value for i in token_list])

@@ -204,18 +204,3 @@ class Interpreter(object):
             if(type == IDENTIFIER or type == ABSTRACTION or type == APPLICATION):
                 prev.append(obj)
         return prev.pop()        
-'''
-l=Lexer('(λa. (λb. b a) a) (λz. z) (λw. w)')
-token_list=l.lexer()
-print([i.value for i in token_list])
-p=Parser(token_list)
-original_AST=p.expression()
-print(original_AST.right.type)
-print(original_AST.left.right.type)
-print(original_AST.left.right.left)
-print(original_AST.left.right.right)
-i=Interpreter(original_AST)
-red_ast=i.interpret()
-t=i.stringify_tree(red_ast)
-print(t)
-'''

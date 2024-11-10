@@ -3,9 +3,6 @@ from ast_node import Node
 from lexer import Lexer
 from constants import IDENTIFIER ,ABSTRACTION,APPLICATION 
  
-IDENTIFIER = 101
-ABSTRACTION = 102
-APPLICATION = 103
 
 class Parser(object):
     def __init__(self,token_list):
@@ -73,13 +70,5 @@ class Parser(object):
         elif(self.next_type(IDENTIFIER)):
             return Node(IDENTIFIER,self.token_list.pop(0).value,None)
         return None
-'''l=Lexer('(λx.x)(λy.y)')
-token_list=l.lexer()
-print([i.value for i in token_list])
-p=Parser(token_list)
-original_AST=p.expression()
-print(original_AST.right.type)
-print(original_AST.left.right.type)
-print(original_AST.left.right.left)
-print(original_AST.left.right.right)'''
+
 
