@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery.terminal@2.x.x/js/jquery.terminal.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery.terminal@2.x.x/css/jquery.terminal.min.css" />
+    <title>Lambda Inerpreter</title>
+</head>
+<body>
+    <h1>Lambda interpreter</h1>
+    <div id="terminal"></div>
+    <script>
+        console.log("AM I EXECUTED ")
+        $(function() {
+             $('#terminal').terminal(function(command,term){
+                this.echo("Hello " + evaluate_lambda(command))
+
+             },{
+                greetings : 'Lambda Calculus Interpreter',
+                
+             });
+      });
+    </script>
+</body>
+</html>
