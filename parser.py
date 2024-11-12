@@ -1,4 +1,4 @@
-from token import Token
+from my_token import Token
 from ast_node import Node
 from lexer import Lexer
 from constants import IDENTIFIER ,ABSTRACTION,APPLICATION 

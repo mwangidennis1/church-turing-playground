@@ -15,7 +15,11 @@
         console.log("AM I EXECUTED ")
         $(function() {
              $('#terminal').terminal(function(command,term){
-                this.echo("Hello " + evaluate_lambda(command))
+                 const encodedExpression = encodeURIComponent(command)
+		 fetch(`/parse_expression?expression=${encodedExpression}`)
+		     .then(response => response.text())
+		     .then(data => this.echo(data))
+		     .catch(error => this.echo(error))
 
              },{
                 greetings : 'Lambda Calculus Interpreter',

@@ -1,5 +1,5 @@
 import re
-from token import Token
+from my_token import Token
 from constants import IDENTIFIER ,ABSTRACTION,APPLICATION
 
 class Lexer(object):

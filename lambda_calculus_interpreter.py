@@ -495,7 +495,7 @@ def interpret(term):
 
 
 
-token_list=parser('(λx.x)(λy.y)')
+token_list=parser((λx.x)(λy.y))
 print([i.value for i in token_list])
 AST=expression()
 if(AST is None):
