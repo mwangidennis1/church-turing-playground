@@ -10,9 +10,34 @@
 </head>
 <body>
     <h1>Lambda interpreter</h1>
+    <p>LAMBDA CALCULUS (also written as λ-calculus) is a system in mathematical logic 
+        for expressing computation using function abstraction and application. The system captures 
+        the notion of computation; it is computationally equivalent to the Turing Machine and can therefore
+         model any Turing machine program.
+
+        The system was defined in the 1930s by Alonzo Church in his paper 
+        "An Unsolvable Problem of Elementary Number Theory" as part of his research in the foundations of mathematics.</p>
     <div id="terminal"></div>
+    <div id="turing">
+        <form>
+            <label for="head">Provide head state :</label><br>
+            <input type="text" required /><br>
+            <label for="tape">Provide initial tape :</label><br>
+            <input type="text" required /><br>
+            <label for="ruleset">Provide a ruleset(JSON format) :</label><br>
+            <textarea></textarea><br>
+            <button>Initalize Machine</button>
+        </form>
+        <div class="state-display" id="stateDisplay"></div>
+        <div class="tape-container" id="tapeContainer"></div>
+        <div class="controls">
+            <button>Run/Pause</button>
+            <button>step</button>
+            <button>Reset</button>
+        </div>
+    </div>
     <script>
-        console.log("AM I EXECUTED ")
+        //console.log("AM I EXECUTED ")
         $(function() {
              $('#terminal').terminal(function(command,term){
                  const encodedExpression = encodeURIComponent(command)
