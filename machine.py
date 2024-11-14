@@ -37,10 +37,20 @@ class Machine(object):
             
             return output
         except KeyError:
-            print("state not found in rule set");
+            
             return False
 
-
+    def get_state(self):
+        return {
+            'tape':self.tape.tape,
+            'head_position':self.head.location,
+            'current_state':self.head.state
+        }
+    def new_step(self):
+        if self.step_lookup():
+            super().new_step()
+            return self.get_state()
+        return None
     def step(self):
         
         rule_set=self.step_lookup()
@@ -55,9 +65,12 @@ class Machine(object):
         self.shift_head(new_move)
     def run(self):
         self.running=True
+        
         while(self.step_lookup()):
             self.step()
             self.get_status()
+        return self.tape.tape
+        
             
             
         

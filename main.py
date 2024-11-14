@@ -91,4 +91,5 @@ t1=Tape(["1","0","1","0","1","B","1","1","1","0","0"]);
 h1=Head( "s1","10");
 h1.display_info();
 m1=Machine(adder_ruleset,t1,h1);
-m1.run();
+p=m1.run();
+print(p)

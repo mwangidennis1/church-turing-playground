@@ -6,6 +6,10 @@ from interpreter import Interpreter
 from constants import IDENTIFIER ,ABSTRACTION,APPLICATION
 from flask import Flask,request,jsonify,send_file,render_template,Response
 from flask_cors import CORS
+from tape import Tape;
+from head import Head;
+from machine import Machine;
+import json
 app=Flask(__name__)
 CORS(app)
 def evaluate_lambda(expression):
@@ -28,6 +32,24 @@ def app_run():
         expression=input("Give lambda expresssion")
         evaluate_lambda(expression)
 '''
+
+@app.route('/machine',methods=['POST'])
+def get_machine_state():
+    data=request.get_json()
+    tape_list=list(data["tape"])
+    x,y=data["head"].split(" ")
+    rule_list=json.loads(data["rule_set"])
+    print(tape_list)
+    print(x,y)
+    print(rule_list)
+    t1=Tape(tape_list)
+    h1=Head( ''.join(x),''.join(y));
+    h1.display_info()
+    m1=Machine(rule_list,t1,h1);
+    result=m1.run()
+    return result
+
+
 @app.route('/')
 def serve_html():
     return send_file('./static/index.html')

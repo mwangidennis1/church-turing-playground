@@ -19,14 +19,14 @@
         "An Unsolvable Problem of Elementary Number Theory" as part of his research in the foundations of mathematics.</p>
     <div id="terminal"></div>
     <div id="turing">
-        <form>
+            <form id="turingform">
             <label for="head">Provide head state :</label><br>
-            <input type="text" required /><br>
+            <input type="text"id="head" required /><br>
             <label for="tape">Provide initial tape :</label><br>
-            <input type="text" required /><br>
+            <input type="text"id="tape" required /><br>
             <label for="ruleset">Provide a ruleset(JSON format) :</label><br>
-            <textarea></textarea><br>
-            <button>Initalize Machine</button>
+            <textarea  id="ruleset"></textarea><br>
+            <button type="submit">Initalize Machine</button>
         </form>
         <div class="state-display" id="stateDisplay"></div>
         <div class="tape-container" id="tapeContainer"></div>
@@ -51,6 +51,32 @@
                 
              });
       });
+      document.getElementById("turingform").addEventListener('submit',async (e)=>{
+        e.preventDefault();
+        const head_state =document.getElementById("head").value 
+      const tape_state=document.getElementById("tape").value 
+        ruleset_state=document.getElementById("ruleset").value 
+      ruleset_state=ruleset_state.replace(/[\n\r]/g, ' ').trim();
+      //console.log(head_state)
+      //console.log(tape_state)
+      //console.log(ruleset_state)
+      const payload={
+           "head":head_state,
+           "tape":tape_state,
+           "rule_set":ruleset_state
+      }
+      console.log(payload)
+      const response=await fetch('/machine',{
+        method: "POST",
+        headers:{
+            "Content-Type" :'application/json'
+        },
+        body:JSON.stringify(payload)
+      })
+      const data = await response.text()
+      console.log(data)
+      })
+      
     </script>
 </body>
 </html>
