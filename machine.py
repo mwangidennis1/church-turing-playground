@@ -65,12 +65,15 @@ class Machine(object):
         self.shift_head(new_move)
     def run(self):
         self.running=True
-        
+        states=[]
+        states.append(self.get_state())
         while(self.step_lookup()):
             self.step()
-            self.get_status()
-        return self.tape.tape
+            states.append(self.get_state())
         
+            #self.get_status()
+        #return self.tape.tape
+        return states
             
             
         

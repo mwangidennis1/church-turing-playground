@@ -39,15 +39,26 @@ def get_machine_state():
     tape_list=list(data["tape"])
     x,y=data["head"].split(" ")
     rule_list=json.loads(data["rule_set"])
-    print(tape_list)
-    print(x,y)
-    print(rule_list)
     t1=Tape(tape_list)
     h1=Head( ''.join(x),''.join(y));
     h1.display_info()
     m1=Machine(rule_list,t1,h1);
-    result=m1.run()
-    return result
+    #result=m1.run()
+    all_states=[]
+    all_states.append({
+        'tape': list(t1.tape),  # Convert tape to list if it isn't already
+        'head_position': h1.location,
+        'current_state': h1.state
+    })
+    while m1.step_lookup():
+        m1.step()
+        all_states.append({
+            'tape': list(t1.tape),
+            'head_position': h1.location,
+            'current_state': h1.state
+        })
+    print(all_states)
+    return jsonify(all_states)
 
 
 @app.route('/')

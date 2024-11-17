@@ -7,8 +7,30 @@
     <script src="https://cdn.jsdelivr.net/npm/jquery.terminal@2.x.x/js/jquery.terminal.min.js"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery.terminal@2.x.x/css/jquery.terminal.min.css" />
     <title>Lambda Inerpreter</title>
+  <style>
+        .tape-cell {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            border: 1px solid #333;
+            margin: 2px;
+            text-align: center;
+            line-height: 40px;
+        }
+        .current-position {
+            background-color: #ffeb3b;
+        }
+        .controls {
+            margin-top: 20px;
+        }
+        .controls button {
+            margin: 0 5px;
+            padding: 5px 10px;
+        }
+    </style>
 </head>
 <body>
+   <section id="lambda-section">
     <h1>Lambda interpreter</h1>
     <p>LAMBDA CALCULUS (also written as λ-calculus) is a system in mathematical logic 
         for expressing computation using function abstraction and application. The system captures 
@@ -18,25 +40,33 @@
         The system was defined in the 1930s by Alonzo Church in his paper 
         "An Unsolvable Problem of Elementary Number Theory" as part of his research in the foundations of mathematics.</p>
     <div id="terminal"></div>
+   </section>
+   <section id="turing-section">
+     <p> TURING MACHINES are a system that represent computation as states on an abstract tape machine.
+       Compared to the lambda calculus, Turing machines are a much more abstract, semi-physical model of computation.
+       Despite the system's simplicity, Turing machines can simulate the entire class of computations and are therefore equivalent in power to the lambda calculus.
+       The system was defined by Alan Turing in the 1930s in his paper “On Computable Numbers with an Application to the Entscheidungsproblem”. </p>
     <div id="turing">
             <form id="turingform">
-            <label for="head">Provide head state :</label><br>
-            <input type="text"id="head" required /><br>
-            <label for="tape">Provide initial tape :</label><br>
-            <input type="text"id="tape" required /><br>
-            <label for="ruleset">Provide a ruleset(JSON format) :</label><br>
-            <textarea  id="ruleset"></textarea><br>
-            <button type="submit">Initalize Machine</button>
-        </form>
-        <div class="state-display" id="stateDisplay"></div>
-        <div class="tape-container" id="tapeContainer"></div>
-        <div class="controls">
-            <button>Run/Pause</button>
-            <button>step</button>
-            <button>Reset</button>
+                <label for="head">Provide head state:</label><br>
+                <input type="text" id="head" required /><br>
+                <label for="tape">Provide initial tape:</label><br>
+                <input type="text" id="tape" required /><br>
+                <label for="ruleset">Provide a ruleset(JSON format):</label><br>
+                <textarea id="ruleset"></textarea><br>
+                <button type="submit">Initialize Machine</button>
+            </form>
+            <div class="state-display" id="stateDisplay"></div>
+            <div class="tape-container" id="tapeContainer"></div>
+            <div class="controls">
+                <button id="runPauseBtn">Run</button>
+                <button id="stepBtn">Step</button>
+                <button id="resetBtn">Reset</button>
+            </div>
         </div>
-    </div>
-    <script>
+    </section>
+   <script>
+     
         //console.log("AM I EXECUTED ")
         $(function() {
              $('#terminal').terminal(function(command,term){
@@ -51,32 +81,107 @@
                 
              });
       });
-      document.getElementById("turingform").addEventListener('submit',async (e)=>{
-        e.preventDefault();
-        const head_state =document.getElementById("head").value 
-      const tape_state=document.getElementById("tape").value 
-        ruleset_state=document.getElementById("ruleset").value 
-      ruleset_state=ruleset_state.replace(/[\n\r]/g, ' ').trim();
-      //console.log(head_state)
-      //console.log(tape_state)
-      //console.log(ruleset_state)
-      const payload={
-           "head":head_state,
-           "tape":tape_state,
-           "rule_set":ruleset_state
-      }
-      console.log(payload)
-      const response=await fetch('/machine',{
-        method: "POST",
-        headers:{
-            "Content-Type" :'application/json'
-        },
-        body:JSON.stringify(payload)
-      })
-      const data = await response.text()
-      console.log(data)
-      })
-      
+     let isRunning = false;
+        let runInterval;
+
+        document.getElementById("turingform").addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const head_state = document.getElementById("head").value;
+            const tape_state = document.getElementById("tape").value;
+            let ruleset_state = document.getElementById("ruleset").value;
+            ruleset_state = ruleset_state.replace(/[\n\r]/g, ' ').trim();
+            
+            const payload = {
+                "head": head_state,
+                "tape": tape_state,
+                "rule_set": ruleset_state
+            };
+            
+            try {
+                const response = await fetch('/machine', {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": 'application/json'
+                    },
+                    body: JSON.stringify(payload)
+                });
+                const states = await response.json();
+                window.turingStates = states;
+                window.currentStateIndex = 0;
+                
+                // Initial render
+                renderState(states[0]);
+                
+                // Reset controls
+                isRunning = false;
+                if (runInterval) clearInterval(runInterval);
+                document.getElementById('runPauseBtn').textContent = 'Run';
+                
+                // Show controls
+                document.querySelector('.controls').style.display = 'block';
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        });
+
+        function renderState(state) {
+            const tapeContainer = document.getElementById('tapeContainer');
+            const stateDisplay = document.getElementById('stateDisplay');
+            
+            // Clear previous content
+            tapeContainer.innerHTML = '';
+            
+            // Create tape cells
+            state.tape.forEach((symbol, index) => {
+                const cell = document.createElement('div');
+                cell.className = 'tape-cell';
+                cell.textContent = symbol;
+                if (index === state.head_position) {
+                    cell.classList.add('current-position');
+                }
+                tapeContainer.appendChild(cell);
+            });
+            
+            // Update state display
+            stateDisplay.textContent = `Current State: ${state.current_state} (Step ${window.currentStateIndex + 1}/${window.turingStates.length})`;
+        }
+
+        document.getElementById('runPauseBtn').addEventListener('click', function() {
+            if (isRunning) {
+                clearInterval(runInterval);
+                this.textContent = 'Run';
+            } else {
+                runInterval = setInterval(() => {
+                    if (window.currentStateIndex < window.turingStates.length - 1) {
+                        window.currentStateIndex++;
+                        renderState(window.turingStates[window.currentStateIndex]);
+                    } else {
+                        clearInterval(runInterval);
+                        this.textContent = 'Run';
+                        isRunning = false;
+                    }
+                }, 1000);
+                this.textContent = 'Pause';
+            }
+            isRunning = !isRunning;
+        });
+
+        document.getElementById('stepBtn').addEventListener('click', function() {
+            if (window.currentStateIndex < window.turingStates.length - 1) {
+                window.currentStateIndex++;
+                renderState(window.turingStates[window.currentStateIndex]);
+            }
+        });
+
+        document.getElementById('resetBtn').addEventListener('click', function() {
+            window.currentStateIndex = 0;
+            renderState(window.turingStates[0]);
+            if (isRunning) {
+                clearInterval(runInterval);
+                document.getElementById('runPauseBtn').textContent = 'Run';
+                isRunning = false;
+            }
+        });
     </script>
 </body>
 </html>

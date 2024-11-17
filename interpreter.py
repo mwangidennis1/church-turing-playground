@@ -166,11 +166,13 @@ class Interpreter(object):
         prev_direction=[]
         stack.append(['RETURN',None,None])
         stack.append([self.term.type,self.term,[]])
+        
         while(len(stack)):
+            '''
             for x in stack:
                 for i in x:
                     print(i)
-                print()    
+                print()'''    
             [type,obj,direction] = stack.pop()
 
             if(type == ABSTRACTION):
@@ -196,6 +198,7 @@ class Interpreter(object):
                         if(not isinstance(term ,str)):
                             continue
                     [highlight_root,return_root] =self.highlight_substitution(term,direction)
+                    self.terminal_print(stringify_tree(highlight_root) + ' ---->' + stringify_tree(return_root))
                     self.original_AST=return_root
                 else:
                     prev.append(Node(APPLICATION,left_redex,right_redex))
