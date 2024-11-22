@@ -2,7 +2,7 @@ from my_token import Token
 from ast_node import Node
 from lexer import Lexer
 from parser import Parser
-from interpreter import Interpreter
+from interpreter import Interpreter,printing_stuff
 from constants import IDENTIFIER ,ABSTRACTION,APPLICATION
 from flask import Flask,request,jsonify,send_file,render_template,Response
 from flask_cors import CORS
@@ -22,16 +22,11 @@ def evaluate_lambda(expression):
         interpreter=Interpreter(original_AST)
         reduced_ast=interpreter.interpret()
         result=interpreter.stringify_tree(reduced_ast)
-        print(result)
+        #print('\n' ,result , printing_stuff)
         return result
     except Exception as e:
         print(f"Somthing unexpected happended: {e} ")
-'''
-def app_run():
-    while(True):
-        expression=input("Give lambda expresssion")
-        evaluate_lambda(expression)
-'''
+
 
 @app.route('/machine',methods=['POST'])
 def get_machine_state():
@@ -70,8 +65,9 @@ def parse_expression():
     expression = request.args.get('expression')
     print(str(expression))
     result=evaluate_lambda(str(expression))
-    print(f"Here is the result: {result} ")
-    return Response(result,mimetype='text/plain')
+    printing_stuff.append(result)
+    print(f"Here is the result: {printing_stuff} ")
+    return jsonify(printing_stuff)
 if __name__=="__main__":
     app.run(debug=True)
     

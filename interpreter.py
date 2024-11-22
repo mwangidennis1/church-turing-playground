@@ -6,7 +6,7 @@ from parser import Parser
 from constants import IDENTIFIER ,ABSTRACTION,APPLICATION
 global alpha_reduction_counter
 global substitution_counter  
-
+printing_stuff=[]
 alpha_reduction_counter=0
 substitution_counter =  1 
 [ print_flag, weak_lambda_calculus_flag ] = [ True, False ];
@@ -17,6 +17,7 @@ class Interpreter(object):
     def clone(self,item):
         return copy.deepcopy(item)
     def terminal_print(self,term):
+        printing_stuff.append(term)
         print(term)
     def stringify_tree(self,node):
         if(node is None):
@@ -145,7 +146,7 @@ class Interpreter(object):
             elif(type == 'RETURN'):
                 if(print_flag):
                     self.terminal_print('BETA REDUCTION (' + str(substitution_counter) + '):')
-                    substitution_counter += 1
+                    substitution_counter =int(substitution_counter) + 1
                 return prev.pop()
             elif(type == 'RETURN_ALPHA'):
                 if(print_flag):
@@ -196,10 +197,11 @@ class Interpreter(object):
                     stack.append([term.type,term,prev_direction + direction])
                     if(print_flag):
                         if(not isinstance(term ,str)):
-                            continue
-                    [highlight_root,return_root] =self.highlight_substitution(term,direction)
-                    self.terminal_print(stringify_tree(highlight_root) + ' ---->' + stringify_tree(return_root))
-                    self.original_AST=return_root
+                            
+                            [highlight_root,return_root] =self.highlight_substitution(term,direction)
+                            #print(f"here is highlight root {highlight_root} and return root {return_root} ")
+                            self.terminal_print(self.stringify_tree(highlight_root) + ' ---->' + self.stringify_tree(return_root))
+                            self.original_AST=return_root
                 else:
                     prev.append(Node(APPLICATION,left_redex,right_redex))
             elif(type == 'RETURN'):

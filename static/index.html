@@ -202,8 +202,25 @@
              $('#terminal').terminal(function(command,term){
                  const encodedExpression = encodeURIComponent(command)
 		 fetch(`/parse_expression?expression=${encodedExpression}`)
-		     .then(response => response.text())
-		     .then(data => this.echo(data))
+		     .then(response => response.json())
+	.then(steps => {
+                let formattedSteps = [];
+                steps.forEach((step, index) => {
+                    // Convert unicode lambda to λ
+                    let formattedStep = step
+                        .replace(/\u03bb/g, 'λ')
+                        // Add spacing around lambda and reduction arrow
+                        .replace(/\(λ/g, '(λ ')
+                        .replace(/\)/g, ' )')
+                        .replace(/---->/, ' ---> ');
+                    
+                    
+                    formattedSteps.push(formattedStep);
+                });
+
+                // Join and echo the formatted steps
+                this.echo(formattedSteps.join('\n'));
+	    })
 		     .catch(error => this.echo(error))
 
              },{
