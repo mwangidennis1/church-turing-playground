@@ -62,12 +62,15 @@ def serve_html():
 
 @app.route('/parse_expression',methods=['GET'])
 def parse_expression():
-    expression = request.args.get('expression')
-    print(str(expression))
-    result=evaluate_lambda(str(expression))
-    printing_stuff.append(result)
-    print(f"Here is the result: {printing_stuff} ")
-    return jsonify(printing_stuff)
+    try:
+        expression = request.args.get('expression')
+        print(str(expression))
+        result=evaluate_lambda(str(expression))
+        printing_stuff.append(result)
+        print(f"Here is the result: {printing_stuff} ")
+        return jsonify(printing_stuff)
+    finally:
+        printing_stuff.clear()
 if __name__=="__main__":
     app.run(debug=True)
     

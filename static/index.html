@@ -197,14 +197,14 @@
     </section>
    <script>
      
-        //console.log("AM I EXECUTED ")
         $(function() {
              $('#terminal').terminal(function(command,term){
-                 const encodedExpression = encodeURIComponent(command)
+        const encodedExpression = encodeURIComponent(command)
+	         
 		 fetch(`/parse_expression?expression=${encodedExpression}`)
 		     .then(response => response.json())
 	.then(steps => {
-                let formattedSteps = [];
+                const formattedSteps = [];
                 steps.forEach((step, index) => {
                     // Convert unicode lambda to λ
                     let formattedStep = step
@@ -219,7 +219,8 @@
                 });
 
                 // Join and echo the formatted steps
-                this.echo(formattedSteps.join('\n'));
+        this.echo(formattedSteps.join('\n'));
+	 
 	    })
 		     .catch(error => this.echo(error))
 
