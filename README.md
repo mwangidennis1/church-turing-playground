@@ -123,6 +123,14 @@ The interpreter provides clear feedback for common issues:
 - Unbound variables
 - Infinite recursion detection
 
+## Roadmap
+
+Planned future enhancements:
+- Add support for eta-reduction
+- Implement syntax highlighting for better readability
+- Provide a visualization of the reduction tree
+- Enable saving and sharing lambda terms
+
 ## Contributing
 
 Interested in contributing? Here are some areas where you can help:
