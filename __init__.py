@@ -16,13 +16,13 @@ def evaluate_lambda(expression):
     try:
         lexer=Lexer(expression)
         token_list=lexer.lexer()
-        #print([i.value for i in token_list])
+        
         parser=Parser(token_list)
         original_AST=parser.expression()
         interpreter=Interpreter(original_AST)
         reduced_ast=interpreter.interpret()
         result=interpreter.stringify_tree(reduced_ast)
-        #print('\n' ,result , printing_stuff)
+        
         return result
     except Exception as e:
         print(f"Somthing unexpected happended: {e} ")
@@ -38,7 +38,7 @@ def get_machine_state():
     h1=Head( ''.join(x),''.join(y));
     h1.display_info()
     m1=Machine(rule_list,t1,h1);
-    #result=m1.run()
+    
     all_states=[]
     all_states.append({
         'tape': list(t1.tape), 
@@ -64,10 +64,10 @@ def serve_html():
 def parse_expression():
     try:
         expression = request.args.get('expression')
-        print(str(expression))
+        
         result=evaluate_lambda(str(expression))
         printing_stuff.append(result)
-        print(f"Here is the result: {printing_stuff} ")
+        
         return jsonify(printing_stuff)
     finally:
         printing_stuff.clear()

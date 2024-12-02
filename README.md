@@ -85,35 +85,12 @@ The interpreter implements:
 
 ## Getting Started
 
-1. Open the interpreter in your web browser
+1. Open the interpreter in your web browser by eecuting the run.sh file
 2. Type a lambda calculus expression at the prompt
 3. Press Enter to see the result
 4. Each reduction step will be displayed automatically
 
-## Common Exercises
 
-Try these exercises to better understand lambda calculus:
-
-1. Implement boolean logic:
-   ```
-   TRUE = λx.λy.x
-   FALSE = λx.λy.y
-   AND = λp.λq.p q p
-   ```
-
-2. Create number representations (Church numerals):
-   ```
-   0 = λf.λx.x
-   1 = λf.λx.f x
-   2 = λf.λx.f (f x)
-   ```
-
-3. Experiment with combinators:
-   ```
-   I = λx.x            (Identity)
-   K = λx.λy.x        (Constant)
-   S = λx.λy.λz.x z (y z)  (Substitution)
-   ```
 
 ## Error Messages
 
@@ -123,13 +100,6 @@ The interpreter provides clear feedback for common issues:
 - Unbound variables
 - Infinite recursion detection
 
-## Roadmap
-
-Planned future enhancements:
-- Add support for eta-reduction
-- Implement syntax highlighting for better readability
-- Provide a visualization of the reduction tree
-- Enable saving and sharing lambda terms
 
 ## Contributing
 
