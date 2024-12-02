@@ -9,9 +9,9 @@ class Lexer(object):
         self.input_text = input_text
 
     def lexer(self):
-        # token
+       
         index = 0
-        # token_list
+       
         parser_list = []
         internal_flag = False
         res = [char for char in self.input_text]

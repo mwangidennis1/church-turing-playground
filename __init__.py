@@ -41,7 +41,7 @@ def get_machine_state():
     #result=m1.run()
     all_states=[]
     all_states.append({
-        'tape': list(t1.tape),  # Convert tape to list if it isn't already
+        'tape': list(t1.tape), 
         'head_position': h1.location,
         'current_state': h1.state
     })

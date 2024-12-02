@@ -6,10 +6,6 @@ class Machine(object):
         self.running=False
     def get_status(self):
         head_state, head_location = self.head.getStatus()
-        print(f"CURRENT STATE: {head_state} Location: {head_location}",
-              self.tape.get_status() , "<br>" , "&#8200;" , (int(head_location) * 6) , "^"
-        )
-        # Multiply head_location by 6 for spacing in the arrow position
         return [
             f"CURRENT STATE: {head_state}",
             self.tape.get_status() , "<br>" , "&#8200;" * (int(head_location) * 6) , "^"
@@ -55,7 +51,6 @@ class Machine(object):
         
         rule_set=self.step_lookup()
         if(isinstance(rule_set,bool)):
-           print("The cooking is over");
            return 
         new_state=rule_set[0]
         new_symbol=rule_set[1]

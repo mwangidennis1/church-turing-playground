@@ -18,7 +18,7 @@ class Interpreter(object):
         return copy.deepcopy(item)
     def terminal_print(self,term):
         printing_stuff.append(term)
-        print(term)
+        
     def stringify_tree(self,node):
         if(node is None):
             return
@@ -169,11 +169,7 @@ class Interpreter(object):
         stack.append([self.term.type,self.term,[]])
         
         while(len(stack)):
-            '''
-            for x in stack:
-                for i in x:
-                    print(i)
-                print()'''    
+                
             [type,obj,direction] = stack.pop()
 
             if(type == ABSTRACTION):
@@ -187,19 +183,19 @@ class Interpreter(object):
             elif(type == 'VARIABLE_R'):
                 obj.right=prev.pop()
             elif(type == 'COMPUTE'):
-                #raise Exception("TODO !")
+                
                 right_redex=prev.pop()
                 left_redex=prev.pop()
                 prev.pop()
                 if(left_redex.type == ABSTRACTION):
-                    #print(right_redex ,"I HAVE AN IDENTIFIER")
+                    
                     term=self.substitute(left_redex,left_redex.left,right_redex)
                     stack.append([term.type,term,prev_direction + direction])
                     if(print_flag):
                         if(not isinstance(term ,str)):
                             
                             [highlight_root,return_root] =self.highlight_substitution(term,direction)
-                            #print(f"here is highlight root {highlight_root} and return root {return_root} ")
+            
                             self.terminal_print(self.stringify_tree(highlight_root) + ' ---->' + self.stringify_tree(return_root))
                             self.original_AST=return_root
                 else:
