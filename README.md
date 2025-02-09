@@ -93,7 +93,7 @@ The interpreter implements:
     git clone https://github.com/mwangidennis1/church-turing-playground.git
     cd church-turing-playground
     chmod +x run.sh
-    source run.sh # activates shell environment
+    source ./run.sh # activates shell environment
     python __init__.py # entry point of the program
     ```
 2. Type a lambda calculus expression at the prompt
