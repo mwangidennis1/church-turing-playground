@@ -1,6 +1,9 @@
 # Lambda Calculus Interpreter
+This project was developed as part of SFE 4015: Software Configuration Management
 
-An interactive web-based interpreter for lambda calculus expressions, allowing users to input and evaluate lambda terms through beta reduction.
+It is an  interactive web-based interpreter for lambda calculus expressions, allowing users to input and evaluate lambda terms through beta reduction plus a simple simulation of the Turing machine
+
+The project is intended to showcase basic foundations of the church-turing hypotheses
 
 ## Overview
 
@@ -85,20 +88,19 @@ The interpreter implements:
 
 ## Getting Started
 
-1. Open the interpreter in your web browser by eecuting the run.sh file
+1. Open the interpreter in your web browser by executing the run.sh file
+   ```
+    git clone https://github.com/mwangidennis1/church-turing-playground.git
+    cd church-turing-playground
+    chmod +x run.sh
+    source run.sh # activates shell environment
+    python __init__.py # entry point of the program
+    ```
 2. Type a lambda calculus expression at the prompt
 3. Press Enter to see the result
 4. Each reduction step will be displayed automatically
 
 
-
-## Error Messages
-
-The interpreter provides clear feedback for common issues:
-- Unmatched parentheses
-- Invalid syntax
-- Unbound variables
-- Infinite recursion detection
 
 
 ## Contributing
