@@ -6,6 +6,9 @@ class Machine(object):
         self.running=False
     def get_status(self):
         head_state, head_location = self.head.getStatus()
+        print(f"CURRENT STATE: {head_state} Location: {head_location}",
+              self.tape.get_status() , "<br>" , "&#8200;" , (int(head_location) * 6) , "^"
+        )
         return [
             f"CURRENT STATE: {head_state}",
             self.tape.get_status() , "<br>" , "&#8200;" * (int(head_location) * 6) , "^"
@@ -66,8 +69,7 @@ class Machine(object):
             self.step()
             states.append(self.get_state())
         
-            #self.get_status()
-        #return self.tape.tape
+            
         return states
             
             
