@@ -465,6 +465,8 @@ int  interpreter(parser_block *node_block,parser_block *ctx_block){
   fp=0;
   bp=0;
   token_counter=0;
+  parser_release(node_block);
+  parser_release(ctx_block);
   return 1;
 }
 
