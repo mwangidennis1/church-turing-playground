@@ -1,0 +1,13 @@
+The program is an implementation of a weak head normal form parser  using a call by name path which tries to evaluate an expression  tree representing a lambda calculus term.
+
+The grammer we use to express our lambda term is:
+term := LAMBDA LCID DOT  term | application
+application := application atom | atom
+atom := LPAREN term RPAREN | LCID
+The program will parse a lambda expression according to the grammer above.Because the grammer is recursively defined , the functions parsing the expressions will call each other 
+recursively as they recognize parts of the lambda expression.This makes a recursive-descent parser which cannot handle left recursion but the left recursion can has been removed
+ (https://en.wikipedia.org/wiki/Left_recursion)
+During parsing the nodes are assigned de brujin indices to avoid variable capture during the substitution process.When the lambda expression tree is created it is then evaluated.The 
+approach implemented is to reduce the leftmost redex first where a redex is just an abstraction.When variables are captured we use S to signify a substitution  should be done.
+
+
